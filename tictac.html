@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            
+            background-color: aqua;
+            
+        }
+        h1{
+            color:black;
+            margin-bottom: 5px;
+            text-align: center;
+            font-size: 50px;
+        }
+        .tictac{
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+            align-items: center;
+            padding: 10px;
+            margin-top: 20px;
+            margin-left: 450px;
+            
+        }
+      
+        .cell {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            display: flex;
+            color:black;
+            align-items: center;
+            background-color: whitesmoke;
+            font-size: 40px;
+            cursor: pointer;
+            text-align: center;
+            justify-content: center;
+            }
+       
+        button{
+            
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 40px;
+            background-color: red;
+            
+            margin-left: 560px;
+        }
+        p{
+            font-size: 20px;
+            align-items: center;
+            color: black;
+            text-align: center;
+        }
+        #confetti{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: none;
+  transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 6s !important;
+}
+ 
+    </style>
+</head>
+<body>
+    <canvas id="confetti"></canvas>
+    
+        <h1>Tic Tac Toc Game</h1>
+        <br>
+        <p id="winner"></p>
+        
+        <div class="tictac">
+            <div class="cell" onclick="playerMove(0)"></div>
+            <div class="cell" onclick="playerMove(1)"></div>
+            <div class="cell" onclick="playerMove(2)"></div>
+            <div class="cell" onclick="playerMove(3)"></div>
+            <div class="cell" onclick="playerMove(4)"></div>
+            <div class="cell" onclick="playerMove(5)"></div>
+            <div class="cell" onclick="playerMove(6)"></div>
+            <div class="cell" onclick="playerMove(7)"></div>
+            <div class="cell" onclick="playerMove(8)"></div>
+
+        </div>
+        <br>
+        <br>
+        <button onclick="resetgame()">Reset</button>
+        <br>
+        <br>
+
+        
+
+    
+    
+    <script>
+        let currentPlayer="X";
+        let tictac=['','','','','','','','',''];
+        let gameover=false;
+
+        function playerMove(index){
+            if(!gameover && !tictac[index]){
+                tictac[index]=currentPlayer;
+                document.getElementsByClassName('cell')[index].innerHTML=currentPlayer;
+                winnigcheck();
+                currentPlayer=currentPlayer==='X'?'O':'X';
+            }
+        }
+        function winnigcheck()
+        {
+                const winningCombos=[
+                 [0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]   
+                ];
+            
+            for(combo of winningCombos){
+                const [a,b,c]=combo;
+                if(tictac[a]&&tictac[a]===tictac[b]&&tictac[b]===tictac[c])
+                {
+                        document.getElementById('winner').innerHTML=`Player ${tictac[a]} is winner`;
+                        celebrate();
+                        gameover=true;
+                        return;
+
+
+                }
+            }
+            
+            if(!tictac.includes('')){
+                document.getElementById('winner').innerHTML="its tie";
+                gameover=true;
+
+            }
+            
+        }
+        
+        function resetgame(){
+            
+
+            document.getElementById('winner').innerHTML='';
+
+                // const cell=document.getElementsByClassName('cell');
+                // for(i=0;i<cell.length;i++){
+                //     cell[i].innerHTML='';
+                // }
+                window.location.reload();
+            }
+        const celebrate= ()=>{
+            document.querySelector('#confetti').style.display = "initial";
+        }
+    </script>
+   <script src="script.js"></script>
+</body>
+</html>
